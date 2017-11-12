@@ -3505,7 +3505,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
 
 Trace: 
-  Error: connect ETIMEDOUT 104.16.59.173:443
+  Error: connect ETIMEDOUT 104.16.63.173:443
       at Object._errnoException (util.js:1021:11)
       at _exceptionWithHostPort (util.js:1043:20)
       at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1175:14)
