@@ -1,13 +1,22 @@
 export default (sequelize, DataTypes) => {
   const Message = sequelize.define('message', {
     text: DataTypes.STRING
-  });
+  },
+    {
+      underscored: true 
+    });
   Message.associate = (models) => {
     Message.belongsTo(models.User, {
-      foreignKey: 'userId'
+      foreignKey: {
+        name: 'userId',
+        field: 'user_id' // we do this so we can have snake-case in postgres db 
+      }
     });
     Message.belongsTo(models.Channel, {
-      foreignKey: 'channelId'
+      foreignKey: {
+        name: 'channelId',
+        field: 'channel_id'
+      }
     })
   }
 
