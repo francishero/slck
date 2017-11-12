@@ -1,10 +1,21 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import path from 'path';
+import morgan from 'morgan';
 import { graphqlExpress,graphiqlExpress } from 'apollo-server-express';
 import {makeExecutableSchema} from 'graphql-tools'
-import typeDefs from './schema'
-import resolvers from './resolvers'
+import { fileLoader, mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
 import models from './models'
+
+
+
+const resolverType = fileLoader(path.join(__dirname, './resolvers'));
+
+const resolvers = mergeResolvers(resolverType)
+
+const types = fileLoader(path.join(__dirname, './schemas'));
+
+const typeDefs =  mergeTypes(types);
 
 export const schema = makeExecutableSchema({
 	typeDefs,
@@ -13,7 +24,7 @@ export const schema = makeExecutableSchema({
 const PORT = 3000;
 const app = express();
 
-
+app.use(morgan('dev'))
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 app.use('/graphiql',graphiqlExpress({endpointURL: '/graphql'}))
 

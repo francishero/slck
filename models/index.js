@@ -1,7 +1,11 @@
 import Sequelize from 'sequelize'
 
 const sequelize = new Sequelize('slack', 'postgres', 'flolizzyhero', {
-  dialect: 'postgres'
+  dialect: 'postgres', 
+  define: {
+    // so we can store rows as snake_case in postgres
+    underscored: true
+  }
 })
 
 const models = {

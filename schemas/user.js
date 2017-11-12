@@ -1,5 +1,4 @@
-export default `
-	type User {
+export default `type User {
     id: Int!
     email: String! 
     username: String!
@@ -25,8 +24,4 @@ export default `
     owner: User!
     members: [User!]!
     channels: [Channel!]!
-  }
-	type Query {
-		hi: String
-	}
-`
+  }`
