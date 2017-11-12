@@ -22,6 +22,14 @@ User.associate= (models) => {
       name: 'userId',
       field: 'user_id'
     }
+  });
+// a user can belong to many channels 
+  User.belongsToMany(models.Channel, {
+    through: 'channel_member',
+    foreignKey: {
+      name: 'userId',
+      field: 'user_id'
+    }
   })
 }
 
