@@ -3,25 +3,13 @@ export default `type User {
     email: String! 
     username: String!
   }
-
-  type Message {
-    id: Int!
-    text: String! 
-    user: User!
-    channel: Channel!
-    team: Team!
+  type Query {
+    getUser(id: Int!): User!
+    allUsers: [User!]!
   }
 
-  type Channel {
-    id: Int!
-    name: String!
-    messages: [Message!]! 
-    public: Boolean!
-    users: [User!]!
+  type Mutation {
+    createUser(username: String!, email: String!, password: String!): User!
   }
 
-  type Team {
-    owner: User!
-    members: [User!]!
-    channels: [Channel!]!
-  }`
+ `

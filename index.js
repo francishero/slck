@@ -25,7 +25,12 @@ const PORT = 3000;
 const app = express();
 
 app.use(morgan('dev'))
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+app.use('/graphql', bodyParser.json(), graphqlExpress({ schema , context: {
+  models, // TODO: research
+  user: {
+    id: 1,
+  }
+}}));
 app.use('/graphiql',graphiqlExpress({endpointURL: '/graphql'}))
 
 // we create the tables in the database 
