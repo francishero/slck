@@ -8,7 +8,8 @@ import {makeExecutableSchema} from 'graphql-tools'
 import { fileLoader, mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
 import models from './models'
 
-
+const SECRET = 'my-secret' // pass it in the context 
+const SECRET2 = 'my-secret-2'
 
 const resolverType = fileLoader(path.join(__dirname, './resolvers'));
 
@@ -31,7 +32,9 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({ schema , context: {
   models, // TODO: research
   user: {
     id: 1,
-  }
+  },
+  SECRET,
+  SECRET2,
 }}));
 app.use('/graphiql',graphiqlExpress({endpointURL: '/graphql'}))
 
