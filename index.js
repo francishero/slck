@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
+import cors from 'cors'
 import morgan from 'morgan';
 import { graphqlExpress,graphiqlExpress } from 'apollo-server-express';
 import {makeExecutableSchema} from 'graphql-tools'
@@ -21,9 +22,10 @@ export const schema = makeExecutableSchema({
 	typeDefs,
 	resolvers
 })
-const PORT = 3000;
+const PORT = 5000;
 const app = express();
 
+app.use(cors('*'))
 app.use(morgan('dev'))
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema , context: {
   models, // TODO: research
