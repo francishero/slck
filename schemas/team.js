@@ -4,9 +4,13 @@ export default `
     members: [User!]!
     channels: [Channel!]!
   }
+  type CreateTeamRespponse {
+  	ok: Boolean!
+  	errors: [Error!]
+  }
 
   type Mutation {
-  	createTeam(name: String!): Boolean!
+  	createTeam(name: String!): CreateTeamRespponse!
   }
 
 `
