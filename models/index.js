@@ -2,6 +2,7 @@ import Sequelize from 'sequelize'
 
 const sequelize = new Sequelize('slack', 'postgres', 'flolizzyhero', {
   dialect: 'postgres', 
+  operatorsAliases: Sequelize.Op,
   define: {
     // so we can store rows as snake_case in postgres
     underscored: true
