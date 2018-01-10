@@ -10,6 +10,37 @@ export default {
       models.Team.findAll({ where: { owner: user.id }},{ raw: true }))
   },
   Mutation: {
+    addTeamMember: requiresAuth.createResolver(async (parent, { email, teamId }, { models, user }) => {
+      try {
+          const teamPromise = models.Team.findOne({ where: { id: teamId }}, { raw: true })
+          const userToAddPromise = models.User.findOne({ where: { email }}, { raw: true })
+          const [team, userToAdd] = await Promise.all([teamPromise, userToAddPromise])
+          if(team.owner !== user.id) {
+            return {
+              ok: false,
+              errors: [{ path: 'email', message: 'You cannot add a team member'}]
+            } }
+            if(!userToAdd) {
+              return {
+                ok: false,
+                errors: [{ path: 'email', message: 'user with that email does not exist'}]
+              }
+            }
+            await models.Member.create({ userId: userToAdd.id, teamId })
+            return {
+              ok: true 
+            }
+          
+      } catch(e) {
+          
+        console.log(e);
+        return {
+          ok: false,
+          errors: formatErrors()
+        }
+      } 
+    })
+  ,
     createTeam: requiresAuth.createResolver( async (parent, args, { models, user }) => {
       // we create a team whose owner is the user we passed in the context 
       // context is passed in the index.js 
