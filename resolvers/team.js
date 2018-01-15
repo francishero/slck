@@ -36,7 +36,7 @@ export default {
         console.log(e);
         return {
           ok: false,
-          errors: formatErrors()
+          errors: formatErrors(e, models )
         }
       } 
     })
@@ -44,16 +44,23 @@ export default {
     createTeam: requiresAuth.createResolver( async (parent, args, { models, user }) => {
       // we create a team whose owner is the user we passed in the context 
       // context is passed in the index.js 
+      // creating a team then creating a channel could throw some errors
+      // maybe team is created sucessfully but channel fails 
+      // we need to make sure both are created successfully before we continue 
+      // so we use sequelize transactions 
       try {
-       const team = await models.Team.create({...args, owner: user.id })
-       // await Channel creation to prevent race condition 
-      await models.Channel.create({ name: 'general', public: true, teamId: team.id })
-      // can add more default channels using sequelize bulkCreate
-      
+        const response = await models.sequelize.transaction(
+          async () => {
+            const team = await models.Team.create({ ...args, owner: user.id })
+            await models.Channel.create({ name: 'general', public: true, teamId: team.id })
+
+            return team 
+          })
+
         return {
           ok: true,
-          team 
-        } 
+          team: response // transaction returned a team 
+        }
       } catch(e) {
         return {
           ok: false,

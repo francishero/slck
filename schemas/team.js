@@ -8,7 +8,7 @@ export default `
   }
   type CreateTeamRespponse {
   	ok: Boolean!
-    team: Team!
+    team: Team
   	errors: [Error!]
   }
   type VoidResponse {
